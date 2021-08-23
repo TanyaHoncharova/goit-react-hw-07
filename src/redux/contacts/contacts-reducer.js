@@ -1,57 +1,50 @@
 import { combineReducers } from 'redux';
 
 import { createReducer } from '@reduxjs/toolkit';
-import actions from './contacts-actions';
+import {
+    addContactSuccess,
+    addContactRequest,
+    addContactError,
+    deleteContactRequest,
+    deleteContactSuccess,
+    deleteContactError,
+    changeFilter,
+    getContactsRequest,
+    getContactsSuccess,
+    getContactsError
 
-// {
-//   contacts: {
-//     items: [],
-//     filter: ''
-//   }
-// }
-// const initialState = JSON.parse(window.localStorage.getItem('contacts')) ?? []
+} from './contacts-actions';
 
-const initialContacts = [
-    {
-        id: "id-1",
-        name: "Rosie Simpson",
-        number: "459-12-56",
 
-    },
-    {
-        id: "id-2",
-        name: "Hermione Kline",
-        number: "443-89-12",
 
-    },
-    {
-        id: "id-3",
-        name: "Eden Clements",
-        number: "645-17-79",
 
-    },
-    {
-        id: "id-4",
-        name: "Annie Copeland",
-        number: "227-91-26",
-
-    },
-];
-
-const itemsReducer = createReducer(initialContacts, {
-    [actions.addContact]: (state, { payload }) => [...state, payload],
-    [actions.deleteContact]: (state, { payload }) =>
+const itemsReducer = createReducer([], {
+    [getContactsSuccess]: (state, { payload }) => [...state, payload],
+    [addContactSuccess]: (state, { payload }) => [...state, payload],
+    [deleteContactSuccess]: (state, { payload }) =>
         state.filter(({ id }) => id !== payload),
 })
 
+const loading = createReducer(false, {
+    [addContactRequest]: () => true,
+    [addContactSuccess]: () => false,
+    [addContactError]: () => false,
+    [deleteContactRequest]: () => true,
+    [deleteContactSuccess]: () => false,
+    [deleteContactError]: () => false,
+    [getContactsRequest]: () => true,
+    [getContactsSuccess]: () => false,
+    [getContactsError]: () => false,
+});
 
 
 const filterReducer = createReducer('', {
-    [actions.changeFilter]: (_, { payload }) => payload,
+    [changeFilter]: (_, { payload }) => payload,
 });
 
 
 export default combineReducers({
     items: itemsReducer,
     filter: filterReducer,
+    loading,
 });

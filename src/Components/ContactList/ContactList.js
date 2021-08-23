@@ -1,11 +1,19 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { connect } from 'react-redux';
-import contactAction from '../../redux/contacts/contacts-actions';
+import { connect, useDispatch } from 'react-redux';
+import deleteContact from '../../redux/contacts/contacts-operations';
+import getContacts from '../../redux/contacts/contacts-operations';
 
 import style from './ContactList.module.css';
+import { useEffect } from 'react';
 
 const ContactList = ({ contacts, onDeleteContact }) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getContacts())
+    }, [dispatch])
+
     return (
         <ul className={style.list}>
             {contacts && contacts.map(({ id, name, number }) => {
@@ -50,7 +58,7 @@ const mapStateToProps = ({ contacts: { items, filter } }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onDeleteContact: id => dispatch(contactAction.deleteContact(id)),
+    onDeleteContact: id => dispatch(deleteContact(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactList);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
-import contactAction from '../../redux/contacts/contacts-actions';
+import contactOperatiions from '../../redux/contacts/contacts-operations';
 import store from "../../redux/store";
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
@@ -42,7 +42,7 @@ const ContactForm = ({ contacts, onSubmit }) => {
 
     const handleSubmit = event => {
         event.preventDefault();
-        if (coincidence(name.toLowerCase())) return;
+        // if (coincidence(name.toLowerCase())) return;
 
         onSubmit({ name, number });
 
@@ -91,6 +91,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: contact => dispatch(contactAction.addContact(contact)),
+    onSubmit: contact => dispatch(contactOperatiions.addContact(contact)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
