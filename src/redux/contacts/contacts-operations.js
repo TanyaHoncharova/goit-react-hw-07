@@ -12,7 +12,7 @@ import {
 }
     from './contacts-actions';
 
-axios.defaults.baseURL = 'http://localhost:4040';
+axios.defaults.baseURL = 'https://61226d55d44628001705484b.mockapi.io';
 
 const fetchContacts = () => async dispatch => {
     dispatch(fetchContactsRequest());
