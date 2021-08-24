@@ -1,40 +1,43 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
-import deleteContact from '../../redux/contacts/contacts-operations';
+import { connect, useDispatch, } from 'react-redux';
 import operations from '../../redux/contacts/contacts-operations';
-
+import LoaderComponent from '../Loader';
 import style from './ContactList.module.css';
 import { useEffect } from 'react';
 
-const ContactList = ({ contacts, onDeleteContact }) => {
+const ContactList = ({ contacts, onDeleteContact, isLoading }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(operations.fetchContacts())
     }, [dispatch]);
 
-
+    console.log(contacts)
 
     return (
-        <ul className={style.list}>
-            {contacts && contacts.map(({ id, name, number }) => {
-                return (
-                    <li key={id} className={style.item}>
-                        <span>{name}</span><span>{number}</span>
-                        <button
-                            className={style.btn}
-                            type="button"
-                            id={id}
-                            onClick={() => onDeleteContact(id)}
-                        >
-                            Delete</button>
-                    </li>
-                );
-            })}
-        </ul>
-
+        <>
+            {isLoading && <LoaderComponent />}
+            <ul className={style.list}>
+                {contacts.map(({ id, name, number }) => {
+                    return (
+                        <li key={id} className={style.item}>
+                            <span>{name}</span><span>{number}</span>
+                            <button
+                                className={style.btn}
+                                type="button"
+                                id={id}
+                                onClick={() => onDeleteContact(id)}
+                            >
+                                Delete</button>
+                        </li>
+                    );
+                })}
+            </ul>
+        </>
     );
+
+
 };
 
 
@@ -55,16 +58,16 @@ const getVisibleContacts = (allContats, filter) => {
     );
 };
 
-// const mapStateToProps = ({ contacts: { items, filter } }) => ({
-//     contacts: getVisibleContacts(items, filter),
-// });
 const mapStateToProps = (state) => ({
-    contacts: state.contacts.item,
+    contacts: getVisibleContacts(state.contacts.items, state.contacts.filter),
+    isLoading: state.contacts.loading,
+
 });
+
 
 const mapDispatchToProps = dispatch => ({
     fetchContacts: () => dispatch(operations.fetchContacts()),
-    onDeleteContact: id => dispatch(deleteContact(id)),
+    onDeleteContact: id => dispatch(operations.deleteContact(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactList);

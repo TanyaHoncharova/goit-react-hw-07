@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {
+    fetchContactsRequest,
+    fetchContactsSuccess,
+    fetchContactsError,
     addContactSuccess,
     addContactRequest,
     addContactError,
     deleteContactSuccess,
     deleteContactRequest,
     deleteContactError,
-    fetchContactsRequest,
-    fetchContactsSuccess,
-    fetchContactsError
 }
     from './contacts-actions';
 
@@ -18,10 +18,11 @@ const fetchContacts = () => async dispatch => {
     dispatch(fetchContactsRequest());
     try {
         const { data } = await axios.get('/contacts');
+
         dispatch(fetchContactsSuccess(data));
     } catch (error) {
         dispatch(fetchContactsError(error));
-    };
+    }
 };
 
 const addContact = newContact => dispatch => {
