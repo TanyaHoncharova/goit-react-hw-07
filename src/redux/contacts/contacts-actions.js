@@ -8,9 +8,9 @@ export const deleteContactRequest = createAction('contacts / deleteContactReques
 export const deleteContactSuccess = createAction('contacts/deleteContactSuccess');
 export const deleteContactError = createAction('contact/deleteContactError');
 
-export const getContactsRequest = createAction('contacts / getContactsRequest');
-export const getContactsSuccess = createAction('contacts/getContactsSuccess');
-export const getContactsError = createAction('contact/getContactsError');
+export const fetchContactsRequest = createAction('contacts /fetchContactsRequest');
+export const fetchContactsSuccess = createAction('contacts/fetchContactsSuccess');
+export const fetchContactsError = createAction('contact/fetchContactsError');
 
 
 export const changeFilter = createAction('contacts/changeFilter');

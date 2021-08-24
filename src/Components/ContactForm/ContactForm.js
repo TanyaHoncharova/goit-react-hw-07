@@ -42,7 +42,7 @@ const ContactForm = ({ contacts, onSubmit }) => {
 
     const handleSubmit = event => {
         event.preventDefault();
-        // if (coincidence(name.toLowerCase())) return;
+        if (coincidence(name.toLowerCase())) return;
 
         onSubmit({ name, number });
 
